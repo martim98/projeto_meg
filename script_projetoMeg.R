@@ -1,6 +1,7 @@
 ## dados chips ##
-file_name<- "data/chip1.txt"
+library(data.table)
 
+file_name<- "data/chip1.txt"
 
 ### packages ###
 
@@ -18,22 +19,11 @@ spot_data <- attr(spot, "spotData")
 
 spot_data
 
-## graficos de intensidade sem normalização e normalização log_2
-par(mfrow = c(1, 2))
+## graficos de intensidade sem normalização
 plot(spot_data$Cy3, spot_data$Cy5, pch = 19, main = 'Raw Cy3 vs Cy5',
      xlab = "Cy3", ylab = "Cy5")
 
-plot(log(spot_data$Cy3, 2), log(spot_data$Cy5, 2),
-     pch = 19,
-     main = 'Raw Cy3 vs Cy5',
-     xlab = "Cy3", ylab = "Cy5")
-par(mfrow = c(1, 1))
 
-## diagnostic plots sugeridos pelo genArise ##
-### ??? numero de rows e columns ??? ###
-M <- log(spot_data$Cy3, 2) - log(spot_data$Cy5, 2)
-
-imageLimma(z = M, row = , column = y, meta.row = w, meta.column = h)
 
 ## ma plot, ri plot e o gráfico da genArise dos das intensidades log_2 ##
 
@@ -50,5 +40,37 @@ ri.plot(new_backg)
 par(mfrow = c(1, 2))
 ri.plot(spot)
 ri.plot(new_backg)
+data(Simon)
 
+## c) 
+# normalizar os dados com log_2
+
+spot_norm <- spot
+spot_norm@spotData$Cy3 <- log(spot_norm@spotData$Cy3, 2)
+spot_norm@spotData$Cy5 <- log(spot_norm@spotData$Cy5, 2)
+spot_norm@spotData$BgCy3 <- log(spot_norm@spotData$BgCy3, 2)
+spot_norm@spotData$BgCy5 <- log(spot_norm@spotData$BgCy5, 2)
+
+
+new_backg <- bg.correct(spot)
+ri.plot(new_backg)
+
+
+# Mesmos gráficos mas normalizados 
+spot_data_norm <- attr(spot_norm, "spotData")
+
+plot(spot_data_norm$Cy3, spot_data_norm$Cy5, pch = 19, main = 'Log 2 Cy3 vs Cy5',
+     xlab = "Cy3", ylab = "Cy5")
+
+
+ma.plot(spot_norm)
+ri.plot(spot_norm)
+cys.plot(spot_norm)
+
+
+new_backg_norm <- bg.correct(spot_norm)
+ri.plot(new_backg_norm)
+
+
+## calcular z scores
 
