@@ -42,6 +42,7 @@ ri.plot(spot)
 ri.plot(new_backg)
 data(Simon)
 
+
 ## c) 
 # normalizar os dados com log_2
 
@@ -56,7 +57,7 @@ new_backg <- bg.correct(spot)
 ri.plot(new_backg)
 
 
-# Mesmos gráficos mas normalizados 
+# Mesmos gráficos mas normalizados com log_2
 spot_data_norm <- attr(spot_norm, "spotData")
 
 plot(spot_data_norm$Cy3, spot_data_norm$Cy5, pch = 19, main = 'Log 2 Cy3 vs Cy5',
@@ -70,6 +71,19 @@ cys.plot(spot_norm)
 
 new_backg_norm <- bg.correct(spot_norm)
 ri.plot(new_backg_norm)
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 901262002b91578ae2e1ef788b22e1fdb05b95a7
 
 
 ## calcular z scores
