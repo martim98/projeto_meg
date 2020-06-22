@@ -1,5 +1,4 @@
 ## dados chips ##
-library(data.table)
 
 file_name<- "data/chip1.txt"
 
@@ -25,7 +24,7 @@ plot(spot_data$Cy3, spot_data$Cy5, pch = 19, main = 'Raw Cy3 vs Cy5',
 
 
 
-## ma plot, ri plot e o gráfico da genArise dos das intensidades log_2 ##
+## ma plot, ri plot e o gráfico da genArise dos das intensidades##
 
 ma.plot(spot)
 ri.plot(spot)
@@ -34,7 +33,19 @@ cys.plot(spot)
 
 ## correção de background de acordo com a genArise ##
 new_backg <- bg.correct(spot)
-ri.plot(new_backg)
+cys.plot(new_backg)
+
+par(mfrow = c(1, 2))
+cys.plot(spot)
+cys.plot(new_backg)
+
+
+
+
+## comparação dos dois gráficos
+cys.plot(new_backg)
+cys.plot(spot)
+
 
 ## comparação sem a correção do background ##
 par(mfrow = c(1, 2))
@@ -44,7 +55,7 @@ data(Simon)
 
 
 ## c) 
-# normalizar os dados com log_2
+# transformar os dados com log_2
 
 spot_norm <- spot
 spot_norm@spotData$Cy3 <- log(spot_norm@spotData$Cy3, 2)
@@ -52,9 +63,6 @@ spot_norm@spotData$Cy5 <- log(spot_norm@spotData$Cy5, 2)
 spot_norm@spotData$BgCy3 <- log(spot_norm@spotData$BgCy3, 2)
 spot_norm@spotData$BgCy5 <- log(spot_norm@spotData$BgCy5, 2)
 
-
-new_backg <- bg.correct(spot)
-ri.plot(new_backg)
 
 
 # Mesmos gráficos mas normalizados com log_2
@@ -74,17 +82,11 @@ ri.plot(new_backg_norm)
 
 
 
+## calcular z scores com os dados log_2
 
+s.spot_ri <- Zscore(spot_norm,"ri")
+s.spot_ma <- Zscore(spot_norm,"ma")
 
-
-
-
-
-
-
-
->>>>>>> 901262002b91578ae2e1ef788b22e1fdb05b95a7
-
-
-## calcular z scores
+Zscore.plot(s.spot_ri)
+Zscore.plot(s.spot_ma)
 
