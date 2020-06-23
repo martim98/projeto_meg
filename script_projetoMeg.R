@@ -1,6 +1,7 @@
 ## dados chips ##
 
 file_name<- "data/chip1.txt"
+data <- read.table(file_name)
 
 ### packages ###
 
@@ -10,8 +11,8 @@ library(genArise)
 ## http://www.bioconductor.org/packages/release/bioc/vignettes/genArise/inst/doc/genArise.pdf##
 ## O Ven é o canal vermelho, logo será o cy5
 
-spot <- read.spot(file_name, cy3 = 2, cy5 = 3,
-                   bg.cy3 = 4, bg.cy5 = 5, ids = 1, header = T)
+spot <- read.spot(file_name, cy3 = 3, cy5 = 2,
+                   bg.cy3 = 5, bg.cy5 = 4, ids = 1, header = T)
 
 ## extrair spot data ##
 spot_data <- attr(spot, "spotData")
