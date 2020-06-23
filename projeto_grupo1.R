@@ -12,14 +12,14 @@ library(genArise)
 file_name<- "chip1.txt"
 
 #patient1 <- read.dataset(file.name = 'chip1.txt', cy3=3, cy5=2, ids=1, symdesc=NULL, zscore=NULL, type=5, header = TRUE, sep="\t")
-# os dados não são do tipo RI nem MA e por isso não conseguem ser lidos pelo read.dataset usa-se read.table que converte em tabela 
+# os dados nÃ£o sÃ£o do tipo RI nem MA e por isso nÃ£o conseguem ser lidos pelo read.dataset usa-se read.table que converte em tabela 
 patient1_table <- read.table(file_name, header = TRUE, sep="\t", quote = "", dec = ".")
 #mas pode se usar read.spot para criar logo classe Spot
 
 patient1 <- read.spot(file_name, cy3=3, cy5=2, bg.cy3=5, bg.cy5=4, ids=1, header = TRUE, sep="\t")
 patient1
 
-# a) representar graficamente as intensidades observadas nos dois canais através do diagrama de dispersão e do MA plot
+# a) representar graficamente as intensidades observadas nos dois canais atravÃ©s do diagrama de dispersÃ£o e do MA plot
 
 par(mfrow=c(1,2), bg='white')
 plot(patient1_table[,3], patient1_table[,2],pch=20, col="dodgerblue") # dispersion
@@ -67,3 +67,17 @@ z_normalized_bg_patient1 <- Zscore(normalized_bg_patient1, type="ma")
 par(mfrow=c(1,1))
 data(z_normalized_bg_patient1)
 Zscore.plot(z_normalized_bg_patient1)
+
+
+### tabela Zscores
+### considerar uma regiÃ£o de rejeiÃ§Ã£o a um alpha 0.05? 
+cut_off <- qnorm(0.975)
+
+z_scores <- z_normalized_bg_patient1@dataSets$Zscore
+ids <- z_normalized_bg_patient1@dataSets$Id
+tabela <- data.frame("Gene_ID" = ids,
+                           "Z_score" = z_scores)
+
+tabela_cutoff <- subset(tabela, subset = abs(Z_score) > cut_off)
+
+tabela_cutoff <- tabela_cutoff[order(-tabela_cutoff$Z_score),]
