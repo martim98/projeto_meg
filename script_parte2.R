@@ -1,4 +1,6 @@
 ### parte 2 ### 
+
+
 library(genArise)
 library(limma)
 path1 <- "data/chip1.txt"
@@ -75,4 +77,41 @@ Zscore.plot(zscores1)
 Zscore.plot(zscores2)
 Zscore.plot(zscores3)
 
+## Package limma precisa de uma matrix com os cy3 e com os cy5
 
+
+data_cy3 <- data.frame('Cy3.1' = normalized_bg_patient1@spotData$Cy3,
+                       'Cy3.2' = normalized_bg_patient2@spotData$Cy3,
+                       'Cy3.3' = normalized_bg_patient3@spotData$Cy3)
+data_cy3 <- as.matrix(data_cy3)
+data_cy5 <- data.frame('Cy5.1' = normalized_bg_patient1@spotData$Cy5,
+                       'Cy5.2' = normalized_bg_patient2@spotData$Cy5,
+                       'Cy5.3' = normalized_bg_patient3@spotData$Cy5)
+data_cy5 <- as.matrix(data_cy5)
+
+
+data <- read.maimages(files = c(path1, path2, path3))
+
+
+
+
+
+
+
+
+
+
+obj <- list(M = '', A = '')
+obj
+class(obj) <- 1
+obj$M <- data_cy3
+obj$A <- data_cy5
+
+
+
+fit <- lmFit(obj)
+b_fit <- eBayes(fit)
+b_fit
+
+table <- topTable(b_fit,number=20,adjust="BH")
+table
