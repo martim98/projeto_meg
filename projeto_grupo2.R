@@ -99,8 +99,27 @@ BiocManager::install("limma")
 
 library(limma)
 
-A_array <- array(c(0.5*log2(patient1@spotData$Cy5*patient1@spotData$Cy3), 0.5*log2(patient2@spotData$Cy5*patient2@spotData$Cy3), 0.5*log2(patient3@spotData$Cy5*patient3@spotData$Cy3)),dim = c(2994,3))
-MA_list_patients <- new("MAList", list("M"= M_array, "A"=A_array))
+A_array <- array(c(0.5*log2(patient1@spotData$Cy5*patient1@spotData$Cy3),
+                   0.5*log2(patient2@spotData$Cy5*patient2@spotData$Cy3),
+                   0.5*log2(patient3@spotData$Cy5*patient3@spotData$Cy3)),dim = c(2994,3))
+
+## Segundo a informação das funções normalize withinArray e normalizBetweeArray do limma , penso que será assim:
+## Utilizar o M array e o A array  ja com o background corrigido e o M_array normalizado ja anteriormente
+A_array_bg_corrected <- array(c(0.5*log2(bg_corrected_patient1@spotData$Cy5*bg_corrected_patient1@spotData$Cy3),
+                                0.5*log2(bg_corrected_patient2@spotData$Cy5*bg_corrected_patient2@spotData$Cy3),
+                                0.5*log2(bg_corrected_patient3@spotData$Cy5*bg_corrected_patient3@spotData$Cy3)),dim = c(2994,3))
+
+MA <- new("MAList", list("M"= M_array_bg_normalized, "A" = A_array_bg_corrected))
+
+## De seguida é necessario normalizar entre arrays e para isso pode-se utilizar a função do limma
+MA_list_patients <- normalizeBetweenArrays(MA , method = "scale")
+
+
+
+## sem normalização, como estava
+MA_list_patients <- new("MAList", list("M"= M_array, "A" = A_array))
+
+
 #design <- c(-1,1,-1,1) 
 # -1 corresponds to dye-swap
 MA_list_fit <- lmFit(MA_list_patients)
