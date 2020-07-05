@@ -17,7 +17,7 @@ bg_corrected_patient1 <- bg.correct(patient1)
 normalized_bg_patient1 <- global.norm(mySpot = bg_corrected_patient1)
 z_normalized_bg_patient1 <- Zscore(normalized_bg_patient1, type="ma")
 
-
+data
 
 # e) normalizing the other 2 arrays
 
@@ -87,15 +87,15 @@ for(j in 1:3){
 z_normalized_bg_patient2 <- Zscore(normalized_bg_patient2, type="ma")
 z_normalized_bg_patient3 <- Zscore(normalized_bg_patient3, type="ma")
 par(mfrow=c(1,3))
-data(z_normalized_bg_patient1)
+
 Zscore.plot(z_normalized_bg_patient1)
-data(z_normalized_bg_patient2)
+
 Zscore.plot(z_normalized_bg_patient2)
-data(z_normalized_bg_patient3)
+
 Zscore.plot(z_normalized_bg_patient3)
 
-### tabela Zscores
-cut_off <- qnorm(0.975)
+### tabela Zscores 
+cut_off <- 2
 
 z_scores <- z_normalized_bg_patient2@dataSets$Zscore
 count_2=0

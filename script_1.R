@@ -70,13 +70,12 @@ data(z_normalized_bg_patient1)
 Zscore.plot(z_normalized_bg_patient1)
 
 ### tabela Zscores
-### considerar uma regi?o de rejei??o a um alpha 0.05? 
-cut_off <- qnorm(0.975)
+cut_off <- 2
 
 z_scores <- z_normalized_bg_patient1@dataSets$Zscore
 count=0
 for(i in 1:2994){
-  if(abs(z_scores[i])>=2) count=count+1
+  if(abs(z_scores[i])>=cut_off) count=count+1
 }
   
 ids <- z_normalized_bg_patient1@dataSets$Id
